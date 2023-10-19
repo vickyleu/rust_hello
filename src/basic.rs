@@ -1,3 +1,5 @@
+use std::ops::{Deref};
+
 pub(crate) fn basic_example() {
     /*
     有符号整数        type = i8, i16, i32, i64, i128, isize	   == -10, 0, 1_000, 123_i64
@@ -22,11 +24,23 @@ pub(crate) fn basic_example() {
 fn 切片() {
     let mut a: [i8; 10] = [42; 10];// [type; size] == [42; 10] 第一个参数是数组的元素，第二个参数是数组的长度
     a[5] = 0;// 数组是通过size建立的,所以上面并不是两位长度的数组,而是10个42的数组,这里需要注意
-    let mut s = &a[2..4]; // 切片,这里是一个引用,所以不会发生所有权的转移
+    let s = &mut (a[2..4]); // 切片,这里是一个引用,所以不会发生所有权的转移
+    //获取索引为2和3的元素的可变引用切片
+    s[0] = 100;
+    //修改切片第一个元素的值
     // let mut aa = *s; //doesn't have a size known at compile-time
-    let mut aa = &*s;
-    println!("aa: {:?}", aa);
-    println!("a: {:?} s:{:#?}", a, s);
+    let aa = &mut *s;//解引用s,然后再取引用,这样就可以得到一个可变的引用
+    //可以理解为aa实际上是改头换面的s,也就是说aa和s指向的是同一个地址
+    aa[1] = 23;
+    //a变量的借用剩下一个aa和s,依次解除对a的借用,这样a就可以被使用了
+    let _aa=aa.deref();
+    let _s=s.deref().to_vec();
+    // 使用format!()函数来格式化输出
+    let  output = format!("切片 s:{:?} 原始数组 a:{:?}", _s,a);
+    // let mut output = format!("s:{:#?}", _s);
+    // output+= &*format!("a:{:#?}", a);
+    // 使用println!()函数将输出打印出来
+    println!("{}", output);
 }
 
 //noinspection NonAsciiCharacters
@@ -102,8 +116,14 @@ fn 悬垂引用() {
 
 //noinspection NonAsciiCharacters
 fn 循环() {
+    // 未使用的值,推荐使用下划线前缀比如x可以改成_x
     let mut x = 6;  // 可变变量绑定
-    // 未使用的值,推荐使用下划线前缀
+    // 文本需要换行,直接可以遵循C语言中"line continuation"（行继续）
+    println!("\
+    未使用的值,推荐使用\
+    下划线前缀");
+
+
     println!("开始啦");
     print!("{x} ");       // 与 printf 类似的输出宏
     // 谓词表达式不需要括号
@@ -117,4 +137,10 @@ fn 循环() {
     }
     println!();
     println!("结束啦");
+
+    println!("for 循环 {{");
+    for i in 1..=10 {
+        println!(" {}", i);
+    }
+    println!(" }}");
 }

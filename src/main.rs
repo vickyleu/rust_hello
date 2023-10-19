@@ -1,5 +1,12 @@
-mod basic;
+mod basic ;
+mod strings;
+mod functionary;
 
 fn main() {
-    basic::basic_example();
+    if false {
+        basic::basic_example();
+    }
+    strings::string_example();
+
+    functionary::functionary_example();
 }
