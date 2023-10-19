@@ -10,17 +10,16 @@ pub(crate) fn functionary_example() {
     println!("rect: {:?} {:?} {:.2} {:#?}",
              rect.width.get(), rect.height.get(), rect.area()/*保留两位小数点*/, rect.inc_width(5));//不能在{}块中直接填写表达式,这里有点傻逼
 
-    println!("coin toss: {}", pick_one("heads", "tails"));
-    println!("cash prize: {}", pick_one(500, 1000));
-    // println!("pick_two pick_two: {:?}", pick_two(500, "tails"));
-    let value:Box<dyn Any> = pick_two("tails",500, );
+    println!("文本: {}", pick_one("哈喽", "单车"));
+    println!("数字: {}", pick_one(500, 250));
+    let value:Box<dyn Any> = pick_two("单车",500, );
     let reference:&dyn Any = value.as_ref();
     let r = (&*reference);
-    println!("{:?}",r);
+    println!("动态类型 {:?}",r);
     match r {
         u32_value if u32_value.is::<u32>() => println!("value is u32 {:?}",r),
         str_value if str_value.is::<&str>() => println!("value is str {:?}",r),
-        _ => println!("value is not u32 nor str"),
+        _ => println!("value is not u32 nor str, mother fucker"),
     }
 }
 
